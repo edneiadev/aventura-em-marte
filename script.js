@@ -323,7 +323,8 @@ function showLevel1Question() {
         panelNumber.textContent = q.number;
         panelLights.querySelectorAll('.light').forEach(light => light.remove());
 
-        const panelSize = panelLights.clientWidth || 240;
+        const panelComputedWidth = parseFloat(window.getComputedStyle(panelLights).width);
+        const panelSize = panelComputedWidth || panelLights.offsetWidth || 240;
         const lightSize = Math.max(20, Math.round(panelSize * 0.14));
         const lightHalfSize = lightSize / 2;
         const angleSlice = (Math.PI * 2) / q.number;
@@ -440,7 +441,7 @@ function showLevel2Question() {
 
         const corner = document.createElement('div');
         corner.className = 'grid-corner-label';
-        corner.textContent = ' ';
+        corner.textContent = '';
         grid.appendChild(corner);
 
         for (let col = 0; col < 5; col++) {
