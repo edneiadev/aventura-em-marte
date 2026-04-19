@@ -33,6 +33,12 @@ const level1Questions = [
     { number: 15, answers: ['9 + 5', '7 + 8', '8 + 8', '8 + 4'], correct: 1 }
 ];
 
+const level1LightColors = [
+    '#ff6b6b', '#ff9f43', '#feca57', '#1dd1a1', '#54a0ff',
+    '#5f27cd', '#ee5253', '#00d2d3', '#ff9ff3', '#48dbfb',
+    '#10ac84', '#f368e0', '#ffb142', '#7bed9f', '#70a1ff'
+];
+
 const level2Questions = [
     {
         grid: [
@@ -105,10 +111,10 @@ const level3Questions = [
 ];
 
 const clues = [
-    '1º Quantos números pares há entre o 1 e o 17? Resposta: 8',
-    '2º Quantos números ímpares há entre o 0 e o 10? Resposta: 5',
-    '3º Quantas vezes o número 1 aparece entre o 0 e o 13? Resposta: 6',
-    '4º Número que corresponde à letra I. Resposta: 9'
+    '1º Quantos números pares há entre o 1 e o 17?',
+    '2º Quantos números ímpares há entre o 0 e o 10?',
+    '3º Quantas vezes o número 1 aparece entre o 0 e o 13?',
+    '4º Número que corresponde à letra I.'
 ];
 
 const correctCode = [8, 5, 6, 9];
@@ -311,14 +317,27 @@ function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
         
-        // Mostrar número do painel
+        // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
-        panelLights.innerHTML = '';
-        
+        const panelNumber = document.getElementById('panelNumber');
+        panelNumber.textContent = q.number;
+        panelLights.querySelectorAll('.light').forEach(light => light.remove());
+
+        const angleSlice = (Math.PI * 2) / q.number;
+        const radius = 95;
+
         for (let i = 0; i < q.number; i++) {
             const light = document.createElement('div');
             light.className = 'light active';
-            light.textContent = '';
+            light.style.backgroundColor = level1LightColors[i % level1LightColors.length];
+            light.style.color = level1LightColors[i % level1LightColors.length];
+
+            const angle = angleSlice * i;
+            const x = Math.cos(angle) * radius;
+            const y = Math.sin(angle) * radius;
+            light.style.left = `calc(50% + ${x}px - 17px)`;
+            light.style.top = `calc(50% + ${y}px - 17px)`;
+
             panelLights.appendChild(light);
         }
         
@@ -335,6 +354,7 @@ function showLevel1Question() {
         });
         
         startTimer(1, 'timer1', () => {
+            playSound('tempo-esgotado');
             showMessage('⏰ Tempo esgotado!', '', 2000);
             currentQuestion++;
             setTimeout(() => showLevel1Question(), 2000);
@@ -389,14 +409,22 @@ function showLevel2Question() {
     if (currentQuestion < level2Questions.length) {
         const q = level2Questions[currentQuestion];
         
-        document.getElementById('level2QuestionNumber').textContent = `Questão ${currentQuestion + 1}`;
+        document.getElementById('level2QuestionNumber').textContent = `Questão ${currentQuestion + 1}/5`;
         
         // Mostrar grid
         const gridContainer = document.getElementById('gridContainer');
-        gridContainer.innerHTML = '<div class="grid"></div><div class="grid-labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>';
-        
-        const grid = gridContainer.querySelector('.grid');
+        gridContainer.innerHTML = '';
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        const rowLabels = ['A', 'B', 'C', 'D', 'E'];
+
         for (let row = 0; row < 5; row++) {
+            const label = document.createElement('div');
+            label.className = 'grid-row-label';
+            label.textContent = rowLabels[row];
+            grid.appendChild(label);
+
             for (let col = 0; col < 5; col++) {
                 const cell = document.createElement('div');
                 cell.className = 'grid-cell';
@@ -404,10 +432,16 @@ function showLevel2Question() {
                 grid.appendChild(cell);
             }
         }
+        gridContainer.appendChild(grid);
         
         // Mostrar alternativas
         const answersContainer = document.getElementById('level2Answers');
-        answersContainer.innerHTML = '<p style="color: #fff; margin-bottom: 10px;">' + q.question + '</p>';
+        answersContainer.innerHTML = '';
+
+        const questionText = document.createElement('p');
+        questionText.className = 'level2-question';
+        questionText.textContent = q.question;
+        answersContainer.appendChild(questionText);
         
         q.answers.forEach((answer, index) => {
             const btn = document.createElement('button');
