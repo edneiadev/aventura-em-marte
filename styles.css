@@ -196,7 +196,8 @@ h1 {
 }
 
 #level1Screen .question-text {
-    display: none;
+    margin: 0;
+    line-height: 1;
 }
 
 #level1Screen #level1QuestionNumber {

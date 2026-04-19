@@ -26,12 +26,13 @@ const narratives = [
     { text: 'Agora vocês têm que encarar altos desafios para consertar a nave, escapar da nebulosa e continuar a missão.', image: 'assets/images/narrativa-3.jpg' }
 ];
 
+// Q1-Q5: "Qual operação acende o painel com o número abaixo?"
 const level1Questions = [
-    { question: 'Qual operação acende o painel com o número abaixo?', number: 9, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 0'], correct: 0 },
-    { question: 'Qual operação acende o painel com o número abaixo?', number: 10, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 2'], correct: 3 },
-    { question: 'Qual operação acende o painel com o número abaixo?', number: 8, answers: ['4 + 5', '6 + 3', '5 + 3', '8 + 1'], correct: 2 },
-    { question: 'Qual operação acende o painel com o número abaixo?', number: 14, answers: ['6 + 5', '6 + 3', '7 + 7', '8 + 0'], correct: 2 },
-    { question: 'Qual operação acende o painel com o número abaixo?', number: 15, answers: ['9 + 5', '7 + 8', '8 + 8', '8 + 4'], correct: 1 }
+    { number: 9, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 0'], correct: 0 },
+    { number: 10, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 2'], correct: 3 },
+    { number: 8, answers: ['4 + 5', '6 + 3', '5 + 3', '8 + 1'], correct: 2 },
+    { number: 14, answers: ['6 + 5', '6 + 3', '7 + 7', '8 + 0'], correct: 2 },
+    { number: 15, answers: ['9 + 5', '7 + 8', '8 + 8', '8 + 4'], correct: 1 }
 ];
 
 const level1LightColors = [
@@ -273,7 +274,7 @@ function showMessage(text, subtext = '', duration = 2000) {
     showScreen('message');
     
     setTimeout(() => {
-        if (currentScreen === 'message') {
+        if (currentScreen === 'message' && typeof nextGameStep === 'function') {
             nextGameStep();
         }
     }, duration);
@@ -320,7 +321,6 @@ function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
         document.getElementById('level1QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level1Questions.length}`;
-        document.getElementById('level1QuestionText').textContent = '';
         
         // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
@@ -358,7 +358,7 @@ function showLevel1Question() {
 
         const questionText = document.createElement('p');
         questionText.className = 'level1-question';
-        questionText.textContent = q.question || level1QuestionPrompt;
+        questionText.textContent = level1QuestionPrompt;
         answersContainer.appendChild(questionText);
         
         q.answers.forEach((answer, index) => {
