@@ -43,10 +43,10 @@ const level2Questions = [
     {
         grid: [
             [' ', ' ', ' ', ' ', '☀️'],
-            [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' '],
             [' ', '⭐', ' ', ' ', '🌜'],
-            [' ', ' ', ' ', ' ', ' ']
+            [' ', ' ', ' ', ' ', '☄️'],
+            [' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', '🧑‍🚀', ' ']
         ],
         question: 'Se o astronauta andar 3 casas para cima e 2 casas para a esquerda, ele vai ficar na mesma posição do(a):',
         answers: ['SOL', 'LUA', 'ASTEROIDE', 'ESTRELA'],
@@ -55,10 +55,10 @@ const level2Questions = [
     {
         grid: [
             [' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', '🌟'],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', '🌟', ' ', ' ']
+            [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Qual é a localização da estrela Alfa?',
         answers: ['A1', 'D5', 'B5', 'C3'],
@@ -70,7 +70,7 @@ const level2Questions = [
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', '🚀', ' ', ' ']
+            [' ', ' ', ' ', ' ', '🚀']
         ],
         question: 'Se o foguete avançar 4 casas para cima e 2 casas à direita, em que posição ele vai ficar?',
         answers: ['A4', 'D5', 'B4', 'A5'],
@@ -78,10 +78,10 @@ const level2Questions = [
     },
     {
         grid: [
+            [' ', ' ', '🧑‍🚀', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            ['🧑‍🚀', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Qual é a posição do astronauta?',
@@ -90,10 +90,10 @@ const level2Questions = [
     },
     {
         grid: [
+            [' ', ' ', '🧑‍🚀', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            ['🧑‍🚀', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Se o astronauta avançar duas casas para baixo e três casas à esquerda, ele vai ficar em qual posição?',
@@ -323,16 +323,19 @@ function showLevel1Question() {
         panelNumber.textContent = q.number;
         panelLights.querySelectorAll('.light').forEach(light => light.remove());
 
-        const lightSize = 34;
+        const panelSize = panelLights.clientWidth || 240;
+        const lightSize = Math.max(20, Math.round(panelSize * 0.14));
         const lightHalfSize = lightSize / 2;
         const angleSlice = (Math.PI * 2) / q.number;
-        const circleRadius = 95;
+        const circleRadius = (panelSize / 2) - lightHalfSize - 8;
 
         for (let i = 0; i < q.number; i++) {
             const light = document.createElement('div');
             light.className = 'light active';
             light.style.backgroundColor = level1LightColors[i % level1LightColors.length];
             light.style.color = level1LightColors[i % level1LightColors.length];
+            light.style.width = `${lightSize}px`;
+            light.style.height = `${lightSize}px`;
 
             const angle = angleSlice * i;
             const x = Math.cos(angle) * circleRadius;
@@ -433,6 +436,18 @@ function showLevel2Question() {
                 cell.textContent = q.grid[row][col] || ' ';
                 grid.appendChild(cell);
             }
+        }
+
+        const corner = document.createElement('div');
+        corner.className = 'grid-corner-label';
+        corner.textContent = ' ';
+        grid.appendChild(corner);
+
+        for (let col = 0; col < 5; col++) {
+            const label = document.createElement('div');
+            label.className = 'grid-col-label';
+            label.textContent = String(col + 1);
+            grid.appendChild(label);
         }
         gridContainer.appendChild(grid);
         
