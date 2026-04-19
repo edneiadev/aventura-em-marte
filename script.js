@@ -26,6 +26,7 @@ const narratives = [
     { text: 'Agora vocês têm que encarar altos desafios para consertar a nave, escapar da nebulosa e continuar a missão.', image: 'assets/images/narrativa-3.jpg' }
 ];
 
+// Q1-Q5: "Qual operação acende o painel com o número abaixo?"
 const level1Questions = [
     { number: 9, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 0'], correct: 0 },
     { number: 10, answers: ['4 + 5', '6 + 2', '5 + 3', '8 + 2'], correct: 3 },
@@ -273,7 +274,7 @@ function showMessage(text, subtext = '', duration = 2000) {
     showScreen('message');
     
     setTimeout(() => {
-        if (currentScreen === 'message') {
+        if (currentScreen === 'message' && typeof nextGameStep === 'function') {
             nextGameStep();
         }
     }, duration);
@@ -320,7 +321,6 @@ function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
         document.getElementById('level1QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level1Questions.length}`;
-        document.getElementById('level1QuestionText').textContent = level1QuestionPrompt;
         
         // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
@@ -355,6 +355,11 @@ function showLevel1Question() {
         // Mostrar alternativas
         const answersContainer = document.getElementById('level1Answers');
         answersContainer.innerHTML = '';
+
+        const questionText = document.createElement('p');
+        questionText.className = 'level1-question';
+        questionText.textContent = level1QuestionPrompt;
+        answersContainer.appendChild(questionText);
         
         q.answers.forEach((answer, index) => {
             const btn = document.createElement('button');
@@ -363,15 +368,15 @@ function showLevel1Question() {
             btn.addEventListener('click', () => selectLevel1Answer(index));
             answersContainer.appendChild(btn);
         });
-        
+
+        showScreen('level1');
+
         startTimer(1, 'timer1', () => {
             playSound('tempo-esgotado');
             showMessage('⏰ Tempo esgotado!', '', 2000);
             currentQuestion++;
             setTimeout(() => showLevel1Question(), 2000);
         });
-        
-        showScreen('level1');
     } else {
         endLevel1();
     }
@@ -474,13 +479,13 @@ function showLevel2Question() {
             answersContainer.appendChild(btn);
         });
         
+        showScreen('level2');
+
         startTimer(1, 'timer2', () => {
             showMessage('⏰ Tempo esgotado!', '', 2000);
             currentQuestion++;
             setTimeout(() => showLevel2Question(), 2000);
         });
-        
-        showScreen('level2');
     } else {
         endLevel2();
     }
@@ -545,13 +550,13 @@ function showLevel3Question() {
             answersContainer.appendChild(btn);
         });
         
+        showScreen('level3');
+
         startTimer(1, 'timer3', () => {
             showMessage('⏰ Tempo esgotado!', '', 2000);
             currentQuestion++;
             setTimeout(() => showLevel3Question(), 2000);
         });
-        
-        showScreen('level3');
     } else {
         endLevel3();
     }
@@ -610,12 +615,12 @@ function showClues() {
         cluesList.appendChild(clueDiv);
     });
     
+    showScreen('clues');
+
     startTimer(5, 'timerClues', () => {
         showMessage('⏰ Tempo esgotado!', '', 1000);
         setTimeout(showCodeInput, 1000);
     });
-    
-    showScreen('clues');
 }
 
 function showCodeInput() {
