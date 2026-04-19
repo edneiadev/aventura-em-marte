@@ -189,7 +189,7 @@ h1 {
 }
 
 #level1Screen #level1QuestionNumber {
-    margin-bottom: 0;
+    margin-bottom: 2px;
 }
 
 #level1Screen .timer {
