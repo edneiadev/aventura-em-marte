@@ -182,10 +182,21 @@ h1 {
     padding: 14px;
 }
 
+#level1Screen .two-column-layout {
+    gap: 12px;
+    align-items: stretch;
+}
+
+#level1Screen .content-column:first-child {
+    justify-content: flex-start;
+}
+
+#level1Screen .content-column:last-child {
+    justify-content: center;
+}
+
 #level1Screen .question-text {
-    margin: 0 0 2px;
-    line-height: 1.3;
-    text-align: left;
+    display: none;
 }
 
 #level1Screen #level1QuestionNumber {
@@ -196,6 +207,19 @@ h1 {
     margin-bottom: 8px;
     font-size: 1.6em;
     padding: 10px;
+}
+
+#level1Screen #level1Answers {
+    gap: 8px;
+}
+
+#level1Screen .level1-question {
+    color: #ffffff;
+    font-size: 0.95em;
+    font-weight: bold;
+    line-height: 1.3;
+    margin: 0 0 4px;
+    text-align: left;
 }
 
 /* Buttons */
