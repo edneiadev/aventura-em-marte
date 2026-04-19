@@ -79,6 +79,14 @@ body {
     overflow-y: auto;
 }
 
+#level1Screen,
+#level2Screen,
+#level3Screen,
+#cluesScreen,
+#resultScreen {
+    overflow: hidden;
+}
+
 .screen.active {
     display: flex;
     justify-content: center;
@@ -594,8 +602,8 @@ h1 {
 }
 
 #cluesScreen .content-column {
-    justify-content: flex-start;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 6px;
     padding: 10px;
 }
 
@@ -776,6 +784,30 @@ h1 {
     #level2Screen .answer-btn {
         font-size: 0.8em;
         padding: 7px;
+    }
+
+    #level1Screen .two-column-layout,
+    #level2Screen .two-column-layout,
+    #level3Screen .two-column-layout,
+    #cluesScreen .two-column-layout,
+    #resultScreen .two-column-layout {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    #level1Screen .content-column,
+    #level2Screen .content-column,
+    #level3Screen .content-column,
+    #cluesScreen .content-column,
+    #resultScreen .text-column,
+    #resultScreen .image-column {
+        padding: 8px;
+    }
+
+    #level2Screen .timer {
+        font-size: 1.2em;
+        padding: 6px;
+        margin-bottom: 6px;
     }
 
     #level1Screen .content-column {

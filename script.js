@@ -87,7 +87,7 @@ const level2Questions = [
         ],
         question: 'Qual é a posição do astronauta?',
         answers: ['A4', 'A3', 'C4', 'B1'],
-        correct: 0
+        correct: 1
     },
     {
         grid: [
