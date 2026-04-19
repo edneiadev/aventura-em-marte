@@ -12,6 +12,7 @@ let correctAnswers = 0;
 let gameTimer = null;
 let timeRemaining = 0;
 let timerInterval = null;
+const level1QuestionPrompt = 'Qual operação acende o painel com o número abaixo?';
 
 // Audio Context
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -33,14 +34,20 @@ const level1Questions = [
     { number: 15, answers: ['9 + 5', '7 + 8', '8 + 8', '8 + 4'], correct: 1 }
 ];
 
+const level1LightColors = [
+    '#ff6b6b', '#ff9f43', '#feca57', '#1dd1a1', '#54a0ff',
+    '#5f27cd', '#ee5253', '#00d2d3', '#ff9ff3', '#48dbfb',
+    '#10ac84', '#f368e0', '#ffb142', '#7bed9f', '#70a1ff'
+];
+
 const level2Questions = [
     {
         grid: [
             [' ', ' ', ' ', ' ', '☀️'],
-            [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' '],
             [' ', '⭐', ' ', ' ', '🌜'],
-            [' ', ' ', ' ', ' ', ' ']
+            [' ', ' ', ' ', ' ', '☄️'],
+            [' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', '🧑‍🚀', ' ']
         ],
         question: 'Se o astronauta andar 3 casas para cima e 2 casas para a esquerda, ele vai ficar na mesma posição do(a):',
         answers: ['SOL', 'LUA', 'ASTEROIDE', 'ESTRELA'],
@@ -49,10 +56,10 @@ const level2Questions = [
     {
         grid: [
             [' ', ' ', ' ', ' ', ' '],
+            [' ', ' ', ' ', ' ', '🌟'],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', '🌟', ' ', ' ']
+            [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Qual é a localização da estrela Alfa?',
         answers: ['A1', 'D5', 'B5', 'C3'],
@@ -64,7 +71,7 @@ const level2Questions = [
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            [' ', ' ', '🚀', ' ', ' ']
+            [' ', ' ', ' ', ' ', '🚀']
         ],
         question: 'Se o foguete avançar 4 casas para cima e 2 casas à direita, em que posição ele vai ficar?',
         answers: ['A4', 'D5', 'B4', 'A5'],
@@ -72,10 +79,10 @@ const level2Questions = [
     },
     {
         grid: [
+            [' ', ' ', '🧑‍🚀', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            ['🧑‍🚀', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Qual é a posição do astronauta?',
@@ -84,10 +91,10 @@ const level2Questions = [
     },
     {
         grid: [
+            [' ', ' ', '🧑‍🚀', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' '],
-            ['🧑‍🚀', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ']
         ],
         question: 'Se o astronauta avançar duas casas para baixo e três casas à esquerda, ele vai ficar em qual posição?',
@@ -105,10 +112,10 @@ const level3Questions = [
 ];
 
 const clues = [
-    '1º Quantos números pares há entre o 1 e o 17? Resposta: 8',
-    '2º Quantos números ímpares há entre o 0 e o 10? Resposta: 5',
-    '3º Quantas vezes o número 1 aparece entre o 0 e o 13? Resposta: 6',
-    '4º Número que corresponde à letra I. Resposta: 9'
+    '1º Quantos números pares há entre o 1 e o 17?',
+    '2º Quantos números ímpares há entre o 0 e o 10?',
+    '3º Quantas vezes o número 1 aparece entre o 0 e o 13?',
+    '4º Número que corresponde à letra I.'
 ];
 
 const correctCode = [8, 5, 6, 9];
@@ -198,7 +205,7 @@ function setupEventListeners() {
 
 function loadSounds() {
     const sounds = [
-        'acerto', 'erro', 'tempo-esgotado', 'derrota', 'vitoria'
+        'acerto', 'erro', 'tempo-esgotado', 'derrota', 'vitoria', 'cronometro'
     ];
 
     sounds.forEach(sound => {
@@ -226,10 +233,11 @@ function playSound(soundName) {
 }
 
 function playTickTack() {
-    if (soundEnabled) {
-        const audio = new Audio('assets/sounds/tic-tac.mp3');
-        audio.play().catch(() => {});
-    }
+    const tickSound = soundEffects.cronometro;
+    if (!soundEnabled || !tickSound) return;
+    tickSound.pause();
+    tickSound.currentTime = 0;
+    tickSound.play().catch(() => {});
 }
 
 function toggleSound() {
@@ -277,6 +285,7 @@ function showMessage(text, subtext = '', duration = 2000) {
 
 function startGame() {
     currentNarrative = 0;
+    playBackgroundMusic();
     showNarrative();
 }
 
@@ -310,15 +319,36 @@ function startLevel1() {
 function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
+        document.getElementById('level1QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level1Questions.length}`;
+        document.getElementById('level1QuestionText').textContent = level1QuestionPrompt;
         
-        // Mostrar número do painel
+        // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
-        panelLights.innerHTML = '';
-        
+        const panelNumber = document.getElementById('panelNumber');
+        panelNumber.textContent = q.number;
+        panelLights.querySelectorAll('.light').forEach(light => light.remove());
+
+        const panelComputedWidth = parseFloat(window.getComputedStyle(panelLights).width);
+        const panelSize = panelComputedWidth || panelLights.offsetWidth || 240;
+        const lightSize = Math.max(20, Math.round(panelSize * 0.14));
+        const lightHalfSize = lightSize / 2;
+        const angleSlice = (Math.PI * 2) / q.number;
+        const circleRadius = (panelSize / 2) - lightHalfSize - 8;
+
         for (let i = 0; i < q.number; i++) {
             const light = document.createElement('div');
             light.className = 'light active';
-            light.textContent = '';
+            light.style.backgroundColor = level1LightColors[i % level1LightColors.length];
+            light.style.color = level1LightColors[i % level1LightColors.length];
+            light.style.width = `${lightSize}px`;
+            light.style.height = `${lightSize}px`;
+
+            const angle = angleSlice * i;
+            const x = Math.cos(angle) * circleRadius;
+            const y = Math.sin(angle) * circleRadius;
+            light.style.left = `calc(50% + ${x}px - ${lightHalfSize}px)`;
+            light.style.top = `calc(50% + ${y}px - ${lightHalfSize}px)`;
+
             panelLights.appendChild(light);
         }
         
@@ -335,6 +365,7 @@ function showLevel1Question() {
         });
         
         startTimer(1, 'timer1', () => {
+            playSound('tempo-esgotado');
             showMessage('⏰ Tempo esgotado!', '', 2000);
             currentQuestion++;
             setTimeout(() => showLevel1Question(), 2000);
@@ -389,14 +420,22 @@ function showLevel2Question() {
     if (currentQuestion < level2Questions.length) {
         const q = level2Questions[currentQuestion];
         
-        document.getElementById('level2QuestionNumber').textContent = `Questão ${currentQuestion + 1}`;
+        document.getElementById('level2QuestionNumber').textContent = `Questão ${currentQuestion + 1}/5`;
         
         // Mostrar grid
         const gridContainer = document.getElementById('gridContainer');
-        gridContainer.innerHTML = '<div class="grid"></div><div class="grid-labels"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span></div>';
-        
-        const grid = gridContainer.querySelector('.grid');
+        gridContainer.innerHTML = '';
+
+        const grid = document.createElement('div');
+        grid.className = 'grid';
+        const rowLabels = ['A', 'B', 'C', 'D', 'E'];
+
         for (let row = 0; row < 5; row++) {
+            const label = document.createElement('div');
+            label.className = 'grid-row-label';
+            label.textContent = rowLabels[row];
+            grid.appendChild(label);
+
             for (let col = 0; col < 5; col++) {
                 const cell = document.createElement('div');
                 cell.className = 'grid-cell';
@@ -404,10 +443,28 @@ function showLevel2Question() {
                 grid.appendChild(cell);
             }
         }
+
+        const corner = document.createElement('div');
+        corner.className = 'grid-corner-label';
+        corner.textContent = '';
+        grid.appendChild(corner);
+
+        for (let col = 0; col < 5; col++) {
+            const label = document.createElement('div');
+            label.className = 'grid-col-label';
+            label.textContent = String(col + 1);
+            grid.appendChild(label);
+        }
+        gridContainer.appendChild(grid);
         
         // Mostrar alternativas
         const answersContainer = document.getElementById('level2Answers');
-        answersContainer.innerHTML = '<p style="color: #fff; margin-bottom: 10px;">' + q.question + '</p>';
+        answersContainer.innerHTML = '';
+
+        const questionText = document.createElement('p');
+        questionText.className = 'level2-question';
+        questionText.textContent = q.question;
+        answersContainer.appendChild(questionText);
         
         q.answers.forEach((answer, index) => {
             const btn = document.createElement('button');
@@ -473,7 +530,7 @@ function showLevel3Question() {
     if (currentQuestion < level3Questions.length) {
         const q = level3Questions[currentQuestion];
         
-        document.getElementById('level3QuestionNumber').textContent = `Nível ${currentLevel}`;
+        document.getElementById('level3QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level3Questions.length}`;
         document.getElementById('level3Question').textContent = q.question;
         
         // Mostrar alternativas
@@ -525,8 +582,10 @@ function selectLevel3Answer(index) {
 
 function updateFuelTank(percentage) {
     const tankFill = document.getElementById('tankFill');
+    const tankNeedle = document.getElementById('tankNeedle');
     const tankLabel = document.querySelector('.tank-label');
     tankFill.style.height = percentage + '%';
+    tankNeedle.style.transform = `rotate(${(percentage * 1.8) - 90}deg)`;
     tankLabel.textContent = Math.round(percentage) + '%';
 }
 
@@ -616,25 +675,31 @@ function startTimer(minutes, timerId, onComplete) {
     if (gameTimer) clearInterval(gameTimer);
     
     timeRemaining = minutes * 60;
+    updateTimerDisplay(timerId);
     
     gameTimer = setInterval(() => {
         timeRemaining--;
-        
-        const mins = Math.floor(timeRemaining / 60);
-        const secs = timeRemaining % 60;
-        
-        const display = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-        
-        const timerElement = document.getElementById(timerId);
-        if (timerElement) {
-            timerElement.textContent = display;
+        if (timeRemaining > 0 && soundEnabled) {
+            playTickTack();
         }
+        updateTimerDisplay(timerId);
         
         if (timeRemaining <= 0) {
             clearInterval(gameTimer);
             if (onComplete) onComplete();
         }
     }, 1000);
+}
+
+function updateTimerDisplay(timerId) {
+    const clampedTime = Math.max(0, timeRemaining);
+    const mins = Math.floor(clampedTime / 60);
+    const secs = clampedTime % 60;
+    const display = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+    const timerElement = document.getElementById(timerId);
+    if (timerElement) {
+        timerElement.textContent = display;
+    }
 }
 
 // =======================

@@ -56,11 +56,14 @@
                         <span id="timer1">01:00</span>
                     </div>
                     <div class="power-panel" id="powerPanel">
-                        <div class="panel-lights"></div>
+                        <div class="panel-lights">
+                            <div class="panel-number" id="panelNumber"></div>
+                        </div>
                     </div>
-                    <p class="question-text">Qual operação acende o painel com o número abaixo?</p>
                 </div>
                 <div class="content-column">
+                    <p id="level1QuestionNumber" class="question-number"></p>
+                    <p id="level1QuestionText" class="question-text"></p>
                     <div id="level1Answers" class="answers-container"></div>
                 </div>
             </div>
@@ -90,8 +93,15 @@
                         <span id="timer3">01:00</span>
                     </div>
                     <div class="fuel-tank" id="fuelTank">
-                        <div class="tank-fill" id="tankFill"></div>
-                        <div class="tank-label">0%</div>
+                        <div class="fuel-marks" role="img" aria-label="Indicador de combustível: F cheio, E vazio">
+                            <span class="fuel-mark fuel-mark-f">F</span>
+                            <span class="fuel-mark fuel-mark-e">E</span>
+                        </div>
+                        <div class="tank-gauge">
+                            <div class="tank-fill" id="tankFill"></div>
+                            <div class="tank-needle" id="tankNeedle"></div>
+                            <div class="tank-label">0%</div>
+                        </div>
                     </div>
                 </div>
                 <div class="content-column">
