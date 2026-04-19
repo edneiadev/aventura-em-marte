@@ -12,6 +12,7 @@ let correctAnswers = 0;
 let gameTimer = null;
 let timeRemaining = 0;
 let timerInterval = null;
+const level1QuestionPrompt = 'Qual operação acende o painel com o número abaixo?';
 
 // Audio Context
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -204,7 +205,7 @@ function setupEventListeners() {
 
 function loadSounds() {
     const sounds = [
-        'acerto', 'erro', 'tempo-esgotado', 'derrota', 'vitoria'
+        'acerto', 'erro', 'tempo-esgotado', 'derrota', 'vitoria', 'cronometro'
     ];
 
     sounds.forEach(sound => {
@@ -232,10 +233,7 @@ function playSound(soundName) {
 }
 
 function playTickTack() {
-    if (soundEnabled) {
-        const audio = new Audio('assets/sounds/tic-tac.mp3');
-        audio.play().catch(() => {});
-    }
+    playSound('cronometro');
 }
 
 function toggleSound() {
@@ -283,6 +281,7 @@ function showMessage(text, subtext = '', duration = 2000) {
 
 function startGame() {
     currentNarrative = 0;
+    playBackgroundMusic();
     showNarrative();
 }
 
@@ -316,6 +315,8 @@ function startLevel1() {
 function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
+        document.getElementById('level1QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level1Questions.length}`;
+        document.getElementById('level1QuestionText').textContent = level1QuestionPrompt;
         
         // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
@@ -525,7 +526,7 @@ function showLevel3Question() {
     if (currentQuestion < level3Questions.length) {
         const q = level3Questions[currentQuestion];
         
-        document.getElementById('level3QuestionNumber').textContent = `Nível ${currentLevel}`;
+        document.getElementById('level3QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level3Questions.length}`;
         document.getElementById('level3Question').textContent = q.question;
         
         // Mostrar alternativas
@@ -577,8 +578,10 @@ function selectLevel3Answer(index) {
 
 function updateFuelTank(percentage) {
     const tankFill = document.getElementById('tankFill');
+    const tankNeedle = document.getElementById('tankNeedle');
     const tankLabel = document.querySelector('.tank-label');
     tankFill.style.height = percentage + '%';
+    tankNeedle.style.transform = `rotate(${(percentage * 1.8) - 90}deg)`;
     tankLabel.textContent = Math.round(percentage) + '%';
 }
 
@@ -668,25 +671,30 @@ function startTimer(minutes, timerId, onComplete) {
     if (gameTimer) clearInterval(gameTimer);
     
     timeRemaining = minutes * 60;
+    updateTimerDisplay(timerId);
     
     gameTimer = setInterval(() => {
         timeRemaining--;
-        
-        const mins = Math.floor(timeRemaining / 60);
-        const secs = timeRemaining % 60;
-        
-        const display = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
-        
-        const timerElement = document.getElementById(timerId);
-        if (timerElement) {
-            timerElement.textContent = display;
+        if (timeRemaining > 0) {
+            playTickTack();
         }
+        updateTimerDisplay(timerId);
         
         if (timeRemaining <= 0) {
             clearInterval(gameTimer);
             if (onComplete) onComplete();
         }
     }, 1000);
+}
+
+function updateTimerDisplay(timerId) {
+    const mins = Math.floor(timeRemaining / 60);
+    const secs = timeRemaining % 60;
+    const display = String(Math.max(0, mins)).padStart(2, '0') + ':' + String(Math.max(0, secs)).padStart(2, '0');
+    const timerElement = document.getElementById(timerId);
+    if (timerElement) {
+        timerElement.textContent = display;
+    }
 }
 
 // =======================
