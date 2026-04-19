@@ -675,7 +675,7 @@ function startTimer(minutes, timerId, onComplete) {
     
     gameTimer = setInterval(() => {
         timeRemaining--;
-        if (timeRemaining > 0) {
+        if (timeRemaining > 0 && soundEnabled) {
             playTickTack();
         }
         updateTimerDisplay(timerId);
@@ -688,9 +688,10 @@ function startTimer(minutes, timerId, onComplete) {
 }
 
 function updateTimerDisplay(timerId) {
-    const mins = Math.floor(timeRemaining / 60);
-    const secs = timeRemaining % 60;
-    const display = String(Math.max(0, mins)).padStart(2, '0') + ':' + String(Math.max(0, secs)).padStart(2, '0');
+    const clampedTime = Math.max(0, timeRemaining);
+    const mins = Math.floor(clampedTime / 60);
+    const secs = clampedTime % 60;
+    const display = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
     const timerElement = document.getElementById(timerId);
     if (timerElement) {
         timerElement.textContent = display;
