@@ -531,13 +531,18 @@ h1 {
     text-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
 }
 
+.fuel-marks {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 176px;
+}
+
 .fuel-mark-f {
-    align-self: flex-start;
     margin-top: 6px;
 }
 
 .fuel-mark-e {
-    align-self: flex-end;
     margin-bottom: 8px;
 }
 
@@ -806,6 +811,10 @@ h1 {
     .tank-gauge {
         width: 118px;
         height: 164px;
+    }
+
+    .fuel-marks {
+        height: 150px;
     }
 
     .tank-needle {

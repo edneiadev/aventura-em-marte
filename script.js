@@ -233,7 +233,11 @@ function playSound(soundName) {
 }
 
 function playTickTack() {
-    playSound('cronometro');
+    const tickSound = soundEffects.cronometro;
+    if (!soundEnabled || !tickSound) return;
+    tickSound.pause();
+    tickSound.currentTime = 0;
+    tickSound.play().catch(() => {});
 }
 
 function toggleSound() {
