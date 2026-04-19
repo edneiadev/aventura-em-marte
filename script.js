@@ -323,8 +323,10 @@ function showLevel1Question() {
         panelNumber.textContent = q.number;
         panelLights.querySelectorAll('.light').forEach(light => light.remove());
 
+        const lightSize = 34;
+        const lightHalfSize = lightSize / 2;
         const angleSlice = (Math.PI * 2) / q.number;
-        const radius = 95;
+        const circleRadius = 95;
 
         for (let i = 0; i < q.number; i++) {
             const light = document.createElement('div');
@@ -333,10 +335,10 @@ function showLevel1Question() {
             light.style.color = level1LightColors[i % level1LightColors.length];
 
             const angle = angleSlice * i;
-            const x = Math.cos(angle) * radius;
-            const y = Math.sin(angle) * radius;
-            light.style.left = `calc(50% + ${x}px - 17px)`;
-            light.style.top = `calc(50% + ${y}px - 17px)`;
+            const x = Math.cos(angle) * circleRadius;
+            const y = Math.sin(angle) * circleRadius;
+            light.style.left = `calc(50% + ${x}px - ${lightHalfSize}px)`;
+            light.style.top = `calc(50% + ${y}px - ${lightHalfSize}px)`;
 
             panelLights.appendChild(light);
         }
