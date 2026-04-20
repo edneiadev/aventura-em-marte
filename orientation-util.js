@@ -51,6 +51,8 @@ function setupInstallPrompt() {
             _installPrompt.userChoice.then(() => {
                 _installPrompt = null;
                 installPromptEl.classList.add('hidden');
+            }).catch(() => {
+                _installPrompt = null;
             });
         } else if (forcePromptDebug) {
             alert('O evento de instalação ainda não foi disparado neste navegador.');
