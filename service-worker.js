@@ -1,10 +1,18 @@
-const CACHE_NAME = 'aventura-em-marte-v2';
+const CACHE_NAME = 'aventura-em-marte-v3';
 const APP_SHELL = [
     '/',
     '/index.html',
     '/styles.css',
-    '/script.js',
     '/manifest.json',
+    '/niveis-faceis/index.html',
+    '/niveis-faceis/script.js',
+    '/niveis-faceis/data.js',
+    '/niveis-medios/index.html',
+    '/niveis-medios/script.js',
+    '/niveis-medios/data.js',
+    '/niveis-dificeis/index.html',
+    '/niveis-dificeis/script.js',
+    '/niveis-dificeis/data.js',
     '/assets/images/icon-192x192.png',
     '/assets/images/icon-512x512.png',
     '/assets/images/icone.jpg',
