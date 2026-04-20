@@ -127,7 +127,6 @@ const correctCode = [8, 5, 6, 9];
 window.addEventListener('DOMContentLoaded', () => {
     setupOrientationLock();
     registerServiceWorker();
-    setupInstallPrompt();
     setupEventListeners();
     loadSounds();
     playBackgroundMusic();
