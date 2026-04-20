@@ -5,6 +5,8 @@ const APP_SHELL = [
     '/styles.css',
     '/script.js',
     '/manifest.json',
+    '/assets/images/icon-192x192.png',
+    '/assets/images/icon-512x512.png',
     '/assets/images/icone.jpg',
     '/assets/images/tela-inicial.jpg',
     '/assets/images/narrativa-1.jpg',
@@ -74,9 +76,18 @@ self.addEventListener('fetch', event => {
                 })
                 .catch(() => {
                     if (event.request.mode === 'navigate') {
-                        return caches.match('/index.html');
+                        return caches.match('/index.html').then(indexResponse => {
+                            if (indexResponse) return indexResponse;
+                            return new Response('Offline - Recurso não disponível', {
+                                status: 503,
+                                statusText: 'Service Unavailable',
+                                headers: new Headers({
+                                    'Content-Type': 'text/plain'
+                                })
+                            });
+                        });
                     }
-                    return cachedResponse || new Response('Offline - Recurso não disponível', {
+                    return new Response('Offline - Recurso não disponível', {
                         status: 503,
                         statusText: 'Service Unavailable',
                         headers: new Headers({
