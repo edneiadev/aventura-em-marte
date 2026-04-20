@@ -1049,11 +1049,11 @@ h1 {
         overflow: hidden;
     }
 
-    body > :not(.portrait-warning) {
+    body:not(.force-landscape-fallback) > :not(.portrait-warning) {
         display: none !important;
     }
 
-    .portrait-warning {
+    body:not(.force-landscape-fallback) .portrait-warning {
         position: fixed;
         inset: 0;
         display: flex;
@@ -1066,6 +1066,22 @@ h1 {
         font-weight: bold;
         background: radial-gradient(circle at center, #1a1a1a 0%, #060606 100%);
         z-index: 9999;
+    }
+
+    body.force-landscape-fallback .portrait-warning {
+        display: none !important;
+    }
+
+    body.force-landscape-fallback .menu-screen,
+    body.force-landscape-fallback .game-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vh;
+        height: 100vw;
+        max-width: none;
+        transform-origin: top left;
+        transform: rotate(90deg) translateY(-100%);
     }
 }
 

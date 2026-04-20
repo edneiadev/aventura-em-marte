@@ -4,6 +4,19 @@
 // =======================
 
 let _installPrompt = null;
+const _isLikelyMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+function syncLandscapeFallback() {
+    if (!document.body) {
+        return;
+    }
+
+    const isPortrait = window.matchMedia('(orientation: portrait)').matches;
+    const isSmallScreen = Math.max(window.innerWidth, window.innerHeight) <= 1024;
+    const shouldForceLandscape = _isLikelyMobile && isPortrait && isSmallScreen;
+
+    document.body.classList.toggle('force-landscape-fallback', shouldForceLandscape);
+}
 
 function lockLandscapeOrientation() {
     if (screen.orientation && typeof screen.orientation.lock === 'function') {
@@ -11,11 +24,15 @@ function lockLandscapeOrientation() {
             console.debug('Falha ao bloquear orientação em paisagem:', error);
         });
     }
+
+    syncLandscapeFallback();
 }
 
 function setupOrientationLock() {
+    syncLandscapeFallback();
     lockLandscapeOrientation();
     window.addEventListener('orientationchange', lockLandscapeOrientation);
+    window.addEventListener('resize', syncLandscapeFallback);
     document.addEventListener('fullscreenchange', lockLandscapeOrientation);
     document.addEventListener('webkitfullscreenchange', lockLandscapeOrientation);
     window.addEventListener('click', lockLandscapeOrientation, { once: true });
