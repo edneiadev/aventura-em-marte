@@ -33,17 +33,17 @@ body {
 }
 
 .difficulty-menu {
-    width: min(1100px, 100%);
+    width: min(980px, 100%);
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
 }
 
 .difficulty-card {
     background: rgba(0, 0, 0, 0.35);
     border-radius: 12px;
     border: 2px solid rgba(255, 255, 255, 0.2);
-    padding: 20px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -51,7 +51,7 @@ body {
 }
 
 .difficulty-card h2 {
-    font-size: 1.3rem;
+    font-size: 1.15rem;
 }
 
 .difficulty-card .btn-primary {
@@ -846,10 +846,28 @@ h1 {
     color: #ff0000;
 }
 
+.portrait-warning {
+    display: none;
+}
+
 /* Responsivo */
 @media (max-width: 768px) {
     .difficulty-menu {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 8px;
+    }
+
+    .difficulty-card {
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .difficulty-card h2 {
+        font-size: 1rem;
+    }
+
+    .difficulty-card p {
+        font-size: 0.78em;
     }
 
     .install-prompt {
@@ -1012,6 +1030,42 @@ h1 {
         width: 50px;
         height: 50px;
         font-size: 1.5em;
+    }
+}
+
+@media (max-width: 560px) {
+    .difficulty-card {
+        padding: 10px;
+    }
+
+    .difficulty-card .btn-primary {
+        padding: 9px 8px;
+        font-size: 0.75em;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 1024px) {
+    body {
+        overflow: hidden;
+    }
+
+    body > :not(.portrait-warning) {
+        display: none !important;
+    }
+
+    .portrait-warning {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 24px;
+        color: #ffffff;
+        font-size: 1.2em;
+        font-weight: bold;
+        background: radial-gradient(circle at center, #1a1a1a 0%, #060606 100%);
+        z-index: 9999;
     }
 }
 

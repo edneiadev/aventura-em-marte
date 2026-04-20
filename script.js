@@ -3,7 +3,6 @@
 // =======================
 
 let soundEnabled = true;
-let installPrompt = null;
 let currentScreen = 'home';
 let currentNarrative = 0;
 let currentLevel = 0;
@@ -126,6 +125,7 @@ const correctCode = [8, 5, 6, 9];
 // =======================
 
 window.addEventListener('DOMContentLoaded', () => {
+    setupOrientationLock();
     registerServiceWorker();
     setupInstallPrompt();
     setupEventListeners();
@@ -140,48 +140,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js').catch(() => {
+        navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).catch(() => {
             console.log('Service Worker não disponível');
         });
     }
-}
-
-// =======================
-// INSTALL PROMPT
-// =======================
-
-function setupInstallPrompt() {
-    const installPromptEl = document.getElementById('installPrompt');
-    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-    if (isStandalone) {
-        installPromptEl.classList.add('hidden');
-    }
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        installPrompt = e;
-        installPromptEl.classList.remove('hidden');
-    });
-
-    document.getElementById('installBtn').addEventListener('click', () => {
-        if (installPrompt) {
-            installPrompt.prompt();
-            installPrompt.userChoice.then(() => {
-                installPrompt = null;
-                installPromptEl.classList.add('hidden');
-            });
-        }
-    });
-
-    document.getElementById('dismissBtn').addEventListener('click', () => {
-        installPromptEl.classList.add('hidden');
-    });
-
-    window.addEventListener('appinstalled', () => {
-        installPrompt = null;
-        installPromptEl.classList.add('hidden');
-    });
 }
 
 // =======================
