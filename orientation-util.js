@@ -4,7 +4,9 @@
 // =======================
 
 let _installPrompt = null;
+const MAX_MOBILE_DIMENSION = 1024;
 const _isLikelyMobile = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+let _resizeRafId = null;
 
 function syncLandscapeFallback() {
     if (!document.body) {
@@ -12,7 +14,7 @@ function syncLandscapeFallback() {
     }
 
     const isPortrait = window.matchMedia('(orientation: portrait)').matches;
-    const isSmallScreen = Math.max(window.innerWidth, window.innerHeight) <= 1024;
+    const isSmallScreen = Math.max(window.innerWidth, window.innerHeight) <= MAX_MOBILE_DIMENSION;
     const shouldForceLandscape = _isLikelyMobile && isPortrait && isSmallScreen;
 
     document.body.classList.toggle('force-landscape-fallback', shouldForceLandscape);
@@ -32,7 +34,16 @@ function setupOrientationLock() {
     syncLandscapeFallback();
     lockLandscapeOrientation();
     window.addEventListener('orientationchange', lockLandscapeOrientation);
-    window.addEventListener('resize', syncLandscapeFallback);
+    window.addEventListener('resize', () => {
+        if (_resizeRafId !== null) {
+            return;
+        }
+
+        _resizeRafId = window.requestAnimationFrame(() => {
+            _resizeRafId = null;
+            syncLandscapeFallback();
+        });
+    });
     document.addEventListener('fullscreenchange', lockLandscapeOrientation);
     document.addEventListener('webkitfullscreenchange', lockLandscapeOrientation);
     window.addEventListener('click', lockLandscapeOrientation, { once: true });
