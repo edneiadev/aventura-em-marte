@@ -81,10 +81,10 @@ window.gameDataOverrides = {
     ],
     level3Questions: [
         { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['78 + 22', '55 + 55', '45 + 45', '60 + 45'], correct: 0 },
-        { question: 'Qual operação completa o tanque?', answers: ['45 + 50', '60 + 35', '56 + 44', '50 + 45'], correct: 2 },
-        { question: 'Qual das operações tem resultado 100?', answers: ['78 + 21', '77 + 34', '33 + 77', '59 + 41'], correct: 3 },
-        { question: 'Qual operação deixa o tanque cheio?', answers: ['98 + 1', '32 + 38', '84 + 26', '94 + 6'], correct: 1 },
-        { question: 'Qual operação acende o tanque para 100%?', answers: ['38 + 45', '54 + 26', '63 + 37', '84 + 16'], correct: 3 }
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['45 + 50', '60 + 35', '56 + 44', '50 + 45'], correct: 2 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['78 + 21', '77 + 34', '33 + 77', '59 + 41'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['98 + 1', '32 + 38', '84 + 26', '84 + 16'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio??', answers: ['38 + 45', '54 + 26', '63 + 37', '84 + 26'], correct: 2 }
     ],
     clues: [
         '1º Pensei em um número, somei 5 e obtive 13. Qual é esse número?',
