@@ -16,6 +16,7 @@
     <title>Aventura em Marte | Escolha a Dificuldade</title>
 </head>
 <body>
+    <div class="portrait-warning">Gire seu celular para jogar no modo paisagem.</div>
     <main class="menu-screen">
         <section class="menu-hero">
             <h1>Aventura em Marte</h1>
@@ -43,9 +44,20 @@
         </section>
     </main>
     <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('service-worker.js').catch(() => {});
+        function lockLandscapeOrientation() {
+            if (screen.orientation && typeof screen.orientation.lock === 'function') {
+                screen.orientation.lock('landscape').catch(() => {});
+            }
         }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js', { scope: '/' }).catch(() => {});
+        }
+
+        lockLandscapeOrientation();
+        window.addEventListener('orientationchange', lockLandscapeOrientation);
+        window.addEventListener('click', lockLandscapeOrientation, { once: true });
+        window.addEventListener('touchstart', lockLandscapeOrientation, { once: true, passive: true });
     </script>
 </body>
 </html>
