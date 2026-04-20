@@ -162,7 +162,9 @@ function registerServiceWorker() {
 
 function lockLandscapeOrientation() {
     if (screen.orientation && typeof screen.orientation.lock === 'function') {
-        screen.orientation.lock('landscape').catch(() => {});
+        screen.orientation.lock('landscape').catch((error) => {
+            console.debug('Falha ao bloquear orientação em paisagem:', error);
+        });
     }
 }
 
