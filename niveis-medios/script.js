@@ -140,7 +140,6 @@ applyArrayOverride(correctCode, gameDataOverrides.correctCode);
 window.addEventListener('DOMContentLoaded', () => {
     setupOrientationLock();
     registerServiceWorker();
-    setupInstallPrompt();
     setupEventListeners();
     loadSounds();
     playBackgroundMusic();
