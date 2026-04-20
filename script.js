@@ -12,7 +12,7 @@ let correctAnswers = 0;
 let gameTimer = null;
 let timeRemaining = 0;
 let timerInterval = null;
-const level1QuestionPrompt = 'Qual operação acende o painel com o número abaixo?';
+const level1QuestionPrompt = 'Qual operação acende o painel com o número ao lado?';
 
 // Audio Context
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -74,7 +74,7 @@ const level2Questions = [
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', '🚀']
         ],
-        question: 'Se o foguete avançar 4 casas para cima e 2 casas à direita, em que posição ele vai ficar?',
+        question: 'Se o foguete avançar 4 casas para cima, em que posição ele vai ficar?',
         answers: ['A4', 'D5', 'B4', 'A5'],
         correct: 3
     },
@@ -98,7 +98,7 @@ const level2Questions = [
             [' ', ' ', ' ', ' ', ' '],
             [' ', ' ', ' ', ' ', ' ']
         ],
-        question: 'Se o astronauta avançar duas casas para baixo e três casas à esquerda, ele vai ficar em qual posição?',
+        question: 'Se o astronauta avançar duas casas para baixo e duas casas à esquerda, ele vai ficar em qual posição?',
         answers: ['A3', 'D1', 'C1', 'B1'],
         correct: 2
     }
