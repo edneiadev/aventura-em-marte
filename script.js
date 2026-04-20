@@ -151,10 +151,17 @@ function registerServiceWorker() {
 // =======================
 
 function setupInstallPrompt() {
+    const installPromptEl = document.getElementById('installPrompt');
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
+
+    if (isStandalone) {
+        installPromptEl.classList.add('hidden');
+    }
+
     window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         installPrompt = e;
-        document.getElementById('installPrompt').classList.remove('hidden');
+        installPromptEl.classList.remove('hidden');
     });
 
     document.getElementById('installBtn').addEventListener('click', () => {
@@ -162,13 +169,18 @@ function setupInstallPrompt() {
             installPrompt.prompt();
             installPrompt.userChoice.then(() => {
                 installPrompt = null;
-                document.getElementById('installPrompt').classList.add('hidden');
+                installPromptEl.classList.add('hidden');
             });
         }
     });
 
     document.getElementById('dismissBtn').addEventListener('click', () => {
-        document.getElementById('installPrompt').classList.add('hidden');
+        installPromptEl.classList.add('hidden');
+    });
+
+    window.addEventListener('appinstalled', () => {
+        installPrompt = null;
+        installPromptEl.classList.add('hidden');
     });
 }
 
