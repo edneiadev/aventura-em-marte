@@ -81,10 +81,10 @@ window.gameDataOverrides = {
     ],
     level3Questions: [
         { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['55 + 45', '55 + 55', '45 + 45', '60 + 45'], correct: 0 },
-        { question: 'Qual operação completa o tanque?', answers: ['45 + 50', '60 + 35', '25 + 75', '50 + 45'], correct: 2 },
-        { question: 'Qual das operações tem resultado 100?', answers: ['78 + 21', '77 + 34', '33 + 77', '65 + 35'], correct: 3 },
-        { question: 'Qual operação deixa o tanque cheio?', answers: ['98 + 1', '95 + 6', '84 + 26', '94 + 6'], correct: 3 },
-        { question: 'Qual operação acende o tanque para 100%?', answers: ['38 + 45', '54 + 26', '63 + 37', '92 + 7'], correct: 2 }
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['45 + 50', '60 + 35', '25 + 75', '50 + 45'], correct: 2 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['78 + 21', '77 + 34', '33 + 77', '65 + 35'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['98 + 1', '95 + 6', '84 + 26', '94 + 6'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['38 + 45', '54 + 26', '63 + 37', '92 + 7'], correct: 2 }
     ],
     clues: [
         '1º Quantos números pares há entre o 1 e o 17?',
