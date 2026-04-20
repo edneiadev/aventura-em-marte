@@ -80,11 +80,11 @@ window.gameDataOverrides = {
         }
     ],
     level3Questions: [
-        { question: 'Qual das operações abaixo deixa o tanque 10% cheio?', answers: ['55 + 45', '55 + 55', '45 + 45', '60 + 45'], correct: 0 },
-        { question: 'Qual operação completa o tanque?', answers: ['45 + 50', '60 + 35', '25 + 75', '50 + 45'], correct: 2 },
-        { question: 'Qual das operações tem resultado 100?', answers: ['78 + 21', '77 + 34', '33 + 77', '65 + 35'], correct: 3 },
-        { question: 'Qual operação deixa o tanque cheio?', answers: ['98 + 1', '95 + 6', '84 + 26', '94 + 6'], correct: 3 },
-        { question: 'Qual operação acende o tanque para 100%?', answers: ['38 + 45', '54 + 26', '63 + 37', '92 + 7'], correct: 2 }
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['50 + 50', '55 + 55', '40 + 40', '70 + 40'], correct: 0 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['40 + 50', '60 + 35', '70 + 30', '50 + 45'], correct: 2 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['80 + 10', '70 + 70', '30 + 80', '90 + 10'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['90 + 1', '50 + 60', '70 + 50', '80 + 20'], correct: 3 },
+        { question: 'Qual das operações abaixo deixa o tanque 100% cheio?', answers: ['30 + 40', '50 + 20', '70 + 30', '90 + 70'], correct: 2 }
     ],
     clues: [
         '1º Qual é o número par: 2 ou 3?',
