@@ -11,11 +11,8 @@ let currentQuestion = 0;
 let correctAnswers = 0;
 let gameTimer = null;
 let timeRemaining = 0;
-let timerInterval = null;
 const level1QuestionPrompt = 'Qual operação acende o painel com o número ao lado?';
 
-// Audio Context
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 let backgroundMusic = null;
 let soundEffects = {};
 
