@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Aventura em Marte - Jogo pedagógico de Matemática para o 3º ano">
+    <meta name="description" content="Aventura em Marte - escolha sua dificuldade: Fácil, Médio ou Difícil.">
     <meta name="theme-color" content="#1a1a1a">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -13,177 +13,39 @@
     <link rel="icon" type="image/png" href="assets/images/icon-192x192.png">
     <link rel="apple-touch-icon" href="assets/images/icon-192x192.png">
     <link rel="stylesheet" href="styles.css">
-    <title>Aventura em Marte</title>
+    <title>Aventura em Marte | Escolha a Dificuldade</title>
 </head>
 <body>
-    <div id="installPrompt" class="install-prompt hidden">
-        <p>Instale o jogo no seu celular!</p>
-        <button id="installBtn" class="btn-install">Instalar</button>
-        <button id="dismissBtn" class="btn-dismiss">Agora não</button>
-    </div>
+    <main class="menu-screen">
+        <section class="menu-hero">
+            <h1>Aventura em Marte</h1>
+            <p class="subtitle">Escolha a dificuldade e salve a missão!</p>
+        </section>
 
-    <div id="gameContainer" class="game-container">
-        <!-- Tela Inicial -->
-        <div id="homeScreen" class="screen active">
-            <div class="two-column-layout">
-                <div class="text-column">
-                    <h1>VIAGEM ESPACIAL</h1>
-                    <p class="subtitle">Jogo pedagógico de Matemática para o 3º ano do Ensino Fundamental</p>
-                    <p class="difficulty">Nível de dificuldade: médio</p>
-                    <p class="credits">Criado por Edneia Angélica Gomes</p>
-                    <button id="startBtn" class="btn-primary">COMEÇAR</button>
-                </div>
-                <div class="image-column">
-                    <img id="homeImage" src="assets/images/tela-inicial.jpg" alt="Nave Espacial">
-                </div>
-            </div>
-        </div>
+        <section class="difficulty-menu">
+            <article class="difficulty-card difficulty-easy">
+                <h2>Fácil</h2>
+                <p>Questões introdutórias para começar sua jornada.</p>
+                <a class="btn-primary" href="niveis-faceis/index.html">Jogar Fácil</a>
+            </article>
 
-        <!-- Tela de Narrativas -->
-        <div id="narrativeScreen" class="screen">
-            <div class="two-column-layout">
-                <div class="image-column">
-                    <img id="narrativeImage" src="" alt="Narrativa">
-                </div>
-                <div class="text-column">
-                    <p id="narrativeText"></p>
-                    <button id="nextNarrativeBtn" class="btn-primary">Avançar</button>
-                </div>
-            </div>
-        </div>
+            <article class="difficulty-card difficulty-medium">
+                <h2>Médio</h2>
+                <p>Desafios da versão atual para consolidar o aprendizado.</p>
+                <a class="btn-primary" href="niveis-medios/index.html">Jogar Médio</a>
+            </article>
 
-        <!-- Tela do Nível 1 -->
-        <div id="level1Screen" class="screen">
-            <div class="two-column-layout">
-                <div class="content-column">
-                    <p id="level1QuestionNumber" class="question-number"></p>
-                    <p id="level1QuestionText" class="question-text"></p>
-                    <div class="timer">
-                        <span id="timer1">01:00</span>
-                    </div>
-                    <div class="power-panel" id="powerPanel">
-                        <div class="panel-lights">
-                            <div class="panel-number" id="panelNumber"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-column">
-                    <div id="level1Answers" class="answers-container"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela do Nível 2 -->
-        <div id="level2Screen" class="screen">
-            <div class="two-column-layout">
-                <div class="content-column">
-                    <p id="level2QuestionNumber" class="question-number"></p>
-                    <div id="gridContainer" class="grid-container"></div>
-                </div>
-                <div class="content-column">
-                    <div class="timer">
-                        <span id="timer2">01:00</span>
-                    </div>
-                    <div id="level2Answers" class="answers-container"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela do Nível 3 -->
-        <div id="level3Screen" class="screen">
-            <div class="two-column-layout">
-                <div class="content-column">
-                    <div class="timer">
-                        <span id="timer3">01:00</span>
-                    </div>
-                    <div class="fuel-tank" id="fuelTank">
-                        <div class="fuel-marks" role="img" aria-label="Indicador de combustível: F cheio, E vazio">
-                            <span class="fuel-mark fuel-mark-f">F</span>
-                            <span class="fuel-mark fuel-mark-e">E</span>
-                        </div>
-                        <div class="tank-gauge">
-                            <div class="tank-fill" id="tankFill"></div>
-                            <div class="tank-needle" id="tankNeedle"></div>
-                            <div class="tank-label">0%</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="content-column">
-                    <p id="level3QuestionNumber" class="question-number"></p>
-                    <p id="level3Question"></p>
-                    <div id="level3Answers" class="answers-container"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela de Desafio Final - Pistas -->
-        <div id="cluesScreen" class="screen">
-            <div class="two-column-layout">
-                <div class="content-column">
-                    <div id="cluesList" class="clues-list"></div>
-                    <button id="revealCodeBtn" class="btn-primary">Avançar</button>
-                </div>
-                <div class="image-column">
-                    <img id="cluesImage" src="assets/images/pistas.jpg" alt="Pistas">
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela de Desafio Final - Código -->
-        <div id="codeScreen" class="screen">
-            <div class="code-input-container">
-                <h2>Digite o código para sair da nebulosa:</h2>
-                <div class="code-boxes">
-                    <input type="text" maxlength="1" class="code-box" id="codeBox1">
-                    <input type="text" maxlength="1" class="code-box" id="codeBox2">
-                    <input type="text" maxlength="1" class="code-box" id="codeBox3">
-                    <input type="text" maxlength="1" class="code-box" id="codeBox4">
-                </div>
-                <button id="submitCodeBtn" class="btn-primary">Confirmar</button>
-            </div>
-        </div>
-
-        <!-- Telas de Feedback -->
-        <div id="resultScreen" class="screen">
-            <div class="two-column-layout">
-                <div class="image-column">
-                    <img id="resultImage" src="" alt="Resultado">
-                </div>
-                <div class="text-column">
-                    <p id="resultText"></p>
-                    <button id="resultBtn" class="btn-primary"></button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tela de Mensagem Rápida -->
-        <div id="messageScreen" class="screen">
-            <div class="message-container">
-                <p id="messageText"></p>
-                <p id="messageSubtext" style="font-size: 0.8em; margin-top: 20px;"></p>
-            </div>
-        </div>
-
-        <!-- Tela de Créditos -->
-        <div id="creditsScreen" class="screen">
-            <div class="credits-container">
-                <h1>CRÉDITOS</h1>
-                <p><strong>Criado por:</strong> Edneia Angélica Gomes</p>
-                <p><strong>Disciplina:</strong> Matemática</p>
-                <p><strong>Série:</strong> 3º ano do Ensino Fundamental</p>
-                <p><strong>Conteúdo:</strong> Operações de adição e localização espacial</p>
-                <p style="margin-top: 40px; font-size: 0.9em;">Obrigado por jogar!</p>
-                <button id="backHomeBtn" class="btn-primary">Voltar ao Início</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Controles de Som e Tela Cheia -->
-    <div class="controls">
-        <button id="soundBtn" class="control-btn" title="Ligar/Desligar Som">🔊</button>
-        <button id="fullscreenBtn" class="control-btn" title="Tela Cheia">⛶</button>
-    </div>
-
-    <script src="script.js"></script>
+            <article class="difficulty-card difficulty-hard">
+                <h2>Difícil</h2>
+                <p>Missões avançadas para equipes experientes.</p>
+                <a class="btn-primary" href="niveis-dificeis/index.html">Jogar Difícil</a>
+            </article>
+        </section>
+    </main>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js').catch(() => {});
+        }
+    </script>
 </body>
 </html>

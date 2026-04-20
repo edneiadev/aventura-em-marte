@@ -17,6 +17,61 @@ body {
     flex-direction: column;
 }
 
+.menu-screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 22px;
+}
+
+.menu-hero {
+    text-align: center;
+}
+
+.difficulty-menu {
+    width: min(1100px, 100%);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.difficulty-card {
+    background: rgba(0, 0, 0, 0.35);
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #fff;
+}
+
+.difficulty-card h2 {
+    font-size: 1.3rem;
+}
+
+.difficulty-card .btn-primary {
+    margin-top: 6px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.difficulty-easy {
+    border-color: #00ff6a;
+}
+
+.difficulty-medium {
+    border-color: #ffd54a;
+}
+
+.difficulty-hard {
+    border-color: #ff5d5d;
+}
+
 /* Install Prompt */
 .install-prompt {
     position: fixed;
@@ -793,6 +848,10 @@ h1 {
 
 /* Responsivo */
 @media (max-width: 768px) {
+    .difficulty-menu {
+        grid-template-columns: 1fr;
+    }
+
     .install-prompt {
         top: 8px;
         width: calc(100% - 16px);
