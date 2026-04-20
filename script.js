@@ -329,10 +329,17 @@ function startLevel1() {
     showLevel1Question();
 }
 
+function setQuestionNumber(elementId, text) {
+    const questionNumberElement = document.getElementById(elementId);
+    if (!questionNumberElement) return;
+    questionNumberElement.removeAttribute('style');
+    questionNumberElement.textContent = text;
+}
+
 function showLevel1Question() {
     if (currentQuestion < level1Questions.length) {
         const q = level1Questions[currentQuestion];
-        document.getElementById('level1QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level1Questions.length}`;
+        setQuestionNumber('level1QuestionNumber', `Questão ${currentQuestion + 1}/${level1Questions.length}`);
         
         // Mostrar número do painel com círculos coloridos
         const panelLights = document.getElementById('powerPanel').querySelector('.panel-lights');
@@ -437,7 +444,7 @@ function showLevel2Question() {
     if (currentQuestion < level2Questions.length) {
         const q = level2Questions[currentQuestion];
         
-        document.getElementById('level2QuestionNumber').textContent = `Questão ${currentQuestion + 1}/5`;
+        setQuestionNumber('level2QuestionNumber', `Questão ${currentQuestion + 1}/5`);
         
         // Mostrar grid
         const gridContainer = document.getElementById('gridContainer');
@@ -547,7 +554,7 @@ function showLevel3Question() {
     if (currentQuestion < level3Questions.length) {
         const q = level3Questions[currentQuestion];
         
-        document.getElementById('level3QuestionNumber').textContent = `Questão ${currentQuestion + 1}/${level3Questions.length}`;
+        setQuestionNumber('level3QuestionNumber', `Questão ${currentQuestion + 1}/${level3Questions.length}`);
         document.getElementById('level3Question').textContent = q.question;
         
         // Mostrar alternativas

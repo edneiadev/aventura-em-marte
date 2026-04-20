@@ -214,6 +214,7 @@ h1 {
     font-weight: bold;
     font-size: 0.95em;
     text-align: center;
+    text-shadow: 0 0 6px rgba(0, 0, 0, 0.9), 0 0 10px rgba(0, 255, 0, 0.45);
 }
 
 #level1Screen .content-column {
@@ -532,8 +533,7 @@ h1 {
 }
 
 #level3Screen .answer-btn,
-#level3Screen #level3Question,
-#level3Screen #level3QuestionNumber {
+#level3Screen #level3Question {
     color: #ffffff;
 }
 
